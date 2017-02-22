@@ -1,4 +1,4 @@
-# psadm - A tool for managing EC2 System Manager Parameter Store
+# psadm - A tool for EC2 System Manager Parameter Store
 
 Export parameters at give time in YAML:
 ```sh
