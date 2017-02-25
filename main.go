@@ -1,3 +1,4 @@
+// psadm is a tool for EC2 System Manager Parameter Store.
 package main
 
 import (
