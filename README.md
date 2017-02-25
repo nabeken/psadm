@@ -1,16 +1,24 @@
 # psadm - A tool for EC2 System Manager Parameter Store
 
-Export parameters at give time in YAML:
+It provides import and export features for SSM Parameter Store.
+
+To export parameters at give time in YAML:
+
 ```sh
-psadm export --at <epoch time>
+psadm export [--with-decryption] [--key-prefix=PREFIX]
 ```
 
-Import from exported parameters in YAML:
+To Import from exported parameters in YAML:
+
 ```sh
-psadm import --dryrun exported.yml
+psadm import [--dryrun] [--default-kms-key-id=KMS-KEY-ID] exported.yml
 ```
 
 Get a parameter at give time:
 ```
-psadm get --at <epoch time>
+psadm get [--at=TIME] [--with-decryption] KEY
 ```
+
+## Tutorial
+
+TBD
