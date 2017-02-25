@@ -19,7 +19,7 @@ type Client struct {
 
 // GetAllParameters gets all parameters having prefix.
 // If decrypt is true, returned parameters will be decrypted.
-func (c *Client) GetAllParameters(prefix string, decrypt bool) ([]*Parameter, error) {
+func (c *Client) GetAllParameters(prefix string) ([]*Parameter, error) {
 	input := &ssm.DescribeParametersInput{}
 	var params []*Parameter
 
@@ -32,7 +32,7 @@ func (c *Client) GetAllParameters(prefix string, decrypt bool) ([]*Parameter, er
 			if prefix == "" || strings.HasPrefix(aws.StringValue(p.Name), prefix) {
 				val, err := c.SSM.GetParameters(&ssm.GetParametersInput{
 					Names:          []*string{p.Name},
-					WithDecryption: aws.Bool(decrypt),
+					WithDecryption: aws.Bool(true),
 				})
 				if err != nil {
 					return nil, err
@@ -41,7 +41,6 @@ func (c *Client) GetAllParameters(prefix string, decrypt bool) ([]*Parameter, er
 				params = append(params, &Parameter{
 					Description: aws.StringValue(p.Description),
 					KMSKeyID:    aws.StringValue(p.KeyId),
-					Decrypted:   decrypt,
 					Name:        aws.StringValue(p.Name),
 					Type:        aws.StringValue(p.Type),
 					Value:       aws.StringValue(val.Parameters[0].Value),
