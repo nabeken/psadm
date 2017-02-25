@@ -4,17 +4,44 @@ import (
 	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
 )
 
-type svcClient interface {
+type ssmClient interface {
 	DescribeParameters(*ssm.DescribeParametersInput) (*ssm.DescribeParametersOutput, error)
 	GetParameters(*ssm.GetParametersInput) (*ssm.GetParametersOutput, error)
+	PutParameter(*ssm.PutParameterInput) (*ssm.PutParameterOutput, error)
 }
 
 // Client wraps SSM client for psadm.
 type Client struct {
-	SSM svcClient
+	SSM ssmClient
+}
+
+// NewClient returns an AWS wrapper client fr psadm.
+func NewClient(sess *session.Session) *Client {
+	return &Client{
+		SSM: ssm.New(sess),
+	}
+}
+
+// PutParameter puts param into Parameter Store.
+func (c *Client) PutParameter(param *Parameter, overwrite bool) error {
+	input := &ssm.PutParameterInput{
+		Name:      aws.String(param.Name),
+		Type:      aws.String(param.Type),
+		Value:     aws.String(param.Value),
+		Overwrite: aws.Bool(overwrite),
+	}
+	if param.Description != "" {
+		input.Description = aws.String(param.Description)
+	}
+	if param.KMSKeyID != "" {
+		input.KeyId = aws.String(param.KMSKeyID)
+	}
+	_, err := c.SSM.PutParameter(input)
+	return err
 }
 
 // GetAllParameters gets all parameters having prefix.
