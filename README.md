@@ -10,7 +10,7 @@ psadm export [--key-prefix=PREFIX] > exported.yml
 
 Note: All `SecureString` parameters are decrypted.
 
-To Import from exported parameters in YAML:
+To import from exported parameters in YAML:
 
 ```sh
 psadm import [--dryrun] [--skip-exist] [--overwrite] [--default-kms-key-id=KMS-KEY-ID] exported.yml
