@@ -83,7 +83,35 @@ func (c *Client) GetParameterByTime(key string, at time.Time) (*Parameter, error
 		return c.GetParameter(key)
 	}
 
-	return nil, nil
+	// dig into history
+	history, err := c.getParameterHistory(key)
+	if err != nil {
+		return nil, err
+	}
+	if len(history) == 0 {
+		return nil, fmt.Errorf("'%s' is not found.", key)
+	}
+
+	// history is sorted by LastModifiedDate in ascending order
+	var p *ssm.ParameterHistory
+	for _, h := range history {
+		if aws.TimeValue(h.LastModifiedDate).After(at) {
+			continue
+		}
+		p = h
+	}
+
+	if p == nil {
+		return nil, fmt.Errorf("'%s' is not found at give time.", key)
+	}
+
+	return &Parameter{
+		Description: aws.StringValue(p.Description),
+		KMSKeyID:    aws.StringValue(p.KeyId),
+		Name:        aws.StringValue(p.Name),
+		Type:        aws.StringValue(p.Type),
+		Value:       aws.StringValue(p.Value),
+	}, nil
 }
 
 // PutParameter puts param into Parameter Store.
@@ -133,6 +161,29 @@ func (c *Client) GetAllParameters(prefix string) ([]*Parameter, error) {
 	}
 
 	return params, nil
+}
+
+func (c *Client) getParameterHistory(key string) ([]*ssm.ParameterHistory, error) {
+	input := &ssm.GetParameterHistoryInput{
+		Name:           aws.String(key),
+		WithDecryption: aws.Bool(true),
+	}
+
+	var history []*ssm.ParameterHistory
+	for {
+		resp, err := c.SSM.GetParameterHistory(input)
+		if err != nil {
+			return nil, err
+		}
+		history = append(history, resp.Parameters...)
+
+		if resp.NextToken == nil {
+			break
+		}
+		input.NextToken = resp.NextToken
+	}
+
+	return history, nil
 }
 
 func (c *Client) describeParameters(filters []*ssm.ParametersFilter) ([]*ssm.ParameterMetadata, error) {

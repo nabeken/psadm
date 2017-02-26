@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ssm"
 	"github.com/nabeken/psadm/ps"
 	"github.com/pkg/errors"
-	yaml "gopkg.in/yaml.v1"
+	yaml "gopkg.in/yaml.v2"
 )
 
 type ImportCommand struct {
