@@ -24,9 +24,9 @@ To import from exported parameters in YAML:
 psadm import [--dryrun] [--skip-exist] [--overwrite] [--default-kms-key-id=KMS-KEY-ID] exported.yml
 ```
 
-To get a parameter at give time:
+To get a parameter at give time in YAML:
 ```
-psadm get [--at=TIME] [--with-decryption] KEY
+psadm get [--at=TIME] KEY
 ```
 
 ## Tutorial
