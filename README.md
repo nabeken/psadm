@@ -2,6 +2,14 @@
 
 It provides the import and export features for [SSM Parameter Store](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/systems-manager-paramstore.html).
 
+## Installation
+
+```sh
+go get -u github.com/nabeken/psadm
+```
+
+## Usage
+
 To export parameters in YAML to STDOUT:
 
 ```sh
