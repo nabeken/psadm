@@ -3,6 +3,7 @@ package ps
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -59,6 +60,30 @@ func (c *Client) GetParameter(key string) (*Parameter, error) {
 		Type:        aws.StringValue(p.Type),
 		Value:       aws.StringValue(val.Parameters[0].Value),
 	}, nil
+}
+
+// GetParameterByTime returns the latest parameter.
+func (c *Client) GetParameterByTime(key string, at time.Time) (*Parameter, error) {
+	desc, err := c.describeParameters([]*ssm.ParametersFilter{
+		{
+			Key:    aws.String(ssm.ParametersFilterKeyName),
+			Values: []*string{aws.String(key)},
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+	if len(desc) == 0 {
+		return nil, fmt.Errorf("'%s' is not found.", key)
+	}
+
+	latest := aws.TimeValue(desc[0].LastModifiedDate)
+
+	if latest.Before(at) {
+		return c.GetParameter(key)
+	}
+
+	return nil, nil
 }
 
 // PutParameter puts param into Parameter Store.

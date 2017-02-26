@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-
-	yaml "gopkg.in/yaml.v1"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/nabeken/psadm/ps"
 	"github.com/pkg/errors"
+	yaml "gopkg.in/yaml.v2"
 )
 
 type GetCommand struct {
-	At int64 `long:"at" description:"Specify a time of a snapshot of value. Default is now."`
+	At string `long:"at" description:"Specify a time of a snapshot of value. Default is now."`
 }
 
 func (cmd *GetCommand) Execute(args []string) error {
@@ -19,9 +19,19 @@ func (cmd *GetCommand) Execute(args []string) error {
 		return errors.New("You must specify a KEY to get.")
 	}
 
+	at, err := time.Parse(time.RFC3339, cmd.At)
+	if err != nil {
+		return errors.Wrap(err, "failed to parse `at'.")
+	}
+
 	client := ps.NewClient(session.Must(session.NewSession()))
 
-	param, err := client.GetParameter(args[0])
+	var param *ps.Parameter
+	if cmd.At == "" {
+		param, err = client.GetParameter(args[0])
+	} else {
+		param, err = client.GetParameterByTime(args[0], at)
+	}
 	if err != nil {
 		return errors.Wrap(err, "failed to get a parameter")
 	}
