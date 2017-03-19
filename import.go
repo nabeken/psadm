@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 
@@ -41,16 +42,34 @@ func (cmd *ImportCommand) Execute(args []string) error {
 	}
 
 	client := ps.NewClient(session.Must(session.NewSession()))
+
+	// function to update
+	actualRun := func(p *ps.Parameter) error {
+		if err := client.PutParameter(p, cmd.Overwrite); err != nil {
+			if awsErr, ok := err.(awserr.Error); ok {
+				if awsErr.Code() == ssm.ErrCodeParameterAlreadyExists && cmd.SkipExist {
+					return nil
+				}
+			}
+			return err
+		}
+		return nil
+	}
+	dryRun := func(p *ps.Parameter) error {
+		fmt.Printf("dryrun: '%s' will be updated\n", p.Name)
+		return nil
+	}
+
+	runF := actualRun
+	if cmd.Dryrun {
+		runF = dryRun
+	}
+
 	for _, p := range params {
 		if p.Type == ssm.ParameterTypeSecureString && p.KMSKeyID == "" {
 			p.KMSKeyID = cmd.DefaultKMSKeyID
 		}
-		if err := client.PutParameter(p, cmd.Overwrite); err != nil {
-			if awsErr, ok := err.(awserr.Error); ok {
-				if awsErr.Code() == ssm.ErrCodeParameterAlreadyExists && cmd.SkipExist {
-					continue
-				}
-			}
+		if err := runF(p); err != nil {
 			return errors.Wrapf(err, "failed to update '%s'", p.Name)
 		}
 	}
