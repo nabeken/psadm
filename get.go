@@ -19,17 +19,17 @@ func (cmd *GetCommand) Execute(args []string) error {
 		return errors.New("You must specify a KEY to get.")
 	}
 
-	at, err := time.Parse(time.RFC3339, cmd.At)
-	if err != nil {
-		return errors.Wrap(err, "failed to parse `at'.")
-	}
-
 	client := ps.NewClient(session.Must(session.NewSession()))
 
 	var param *ps.Parameter
+	var err error
 	if cmd.At == "" {
 		param, err = client.GetParameter(args[0])
 	} else {
+		at, err := time.Parse(time.RFC3339, cmd.At)
+		if err != nil {
+			return errors.Wrap(err, "failed to parse `at'.")
+		}
 		param, err = client.GetParameterByTime(args[0], at)
 	}
 	if err != nil {
