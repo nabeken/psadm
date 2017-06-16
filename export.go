@@ -18,7 +18,7 @@ func (cmd *ExportCommand) Execute(args []string) error {
 
 	params, err := client.GetAllParameters(cmd.KeyPrefix)
 	if err != nil {
-		return errors.Wrap(err, "failed to get parameters from Parameter Store")
+		return err
 	}
 
 	out, err := yaml.Marshal(params)

@@ -1,13 +1,13 @@
 package ps
 
 import (
-	"fmt"
 	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
+	"github.com/pkg/errors"
 )
 
 type ssmClient interface {
@@ -41,7 +41,7 @@ func (c *Client) GetParameter(key string) (*Parameter, error) {
 		return nil, err
 	}
 	if len(desc) == 0 {
-		return nil, fmt.Errorf("'%s' is not found.", key)
+		return nil, errors.Errorf("'%s' is not found.", key)
 	}
 
 	val, err := c.SSM.GetParameters(&ssm.GetParametersInput{
@@ -49,7 +49,7 @@ func (c *Client) GetParameter(key string) (*Parameter, error) {
 		WithDecryption: aws.Bool(true),
 	})
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to get parameters")
 	}
 
 	p := desc[0]
@@ -74,7 +74,7 @@ func (c *Client) GetParameterByTime(key string, at time.Time) (*Parameter, error
 		return nil, err
 	}
 	if len(desc) == 0 {
-		return nil, fmt.Errorf("'%s' is not found.", key)
+		return nil, errors.Errorf("'%s' is not found.", key)
 	}
 
 	latest := aws.TimeValue(desc[0].LastModifiedDate)
@@ -89,7 +89,7 @@ func (c *Client) GetParameterByTime(key string, at time.Time) (*Parameter, error
 		return nil, err
 	}
 	if len(history) == 0 {
-		return nil, fmt.Errorf("'%s' is not found.", key)
+		return nil, errors.Errorf("'%s' is not found.", key)
 	}
 
 	// history is sorted by LastModifiedDate in ascending order
@@ -102,7 +102,7 @@ func (c *Client) GetParameterByTime(key string, at time.Time) (*Parameter, error
 	}
 
 	if p == nil {
-		return nil, fmt.Errorf("'%s' is not found at give time.", key)
+		return nil, errors.Errorf("'%s' is not found at give time.", key)
 	}
 
 	return &Parameter{
@@ -129,7 +129,7 @@ func (c *Client) PutParameter(param *Parameter, overwrite bool) error {
 		input.KeyId = aws.String(param.KMSKeyID)
 	}
 	_, err := c.SSM.PutParameter(input)
-	return err
+	return errors.Wrap(err, "failed to put parameters")
 }
 
 // GetAllParameters gets all parameters having prefix.
@@ -147,7 +147,7 @@ func (c *Client) GetAllParameters(prefix string) ([]*Parameter, error) {
 				WithDecryption: aws.Bool(true),
 			})
 			if err != nil {
-				return nil, err
+				return nil, errors.Wrap(err, "failed to get parameters")
 			}
 
 			params = append(params, &Parameter{
@@ -173,7 +173,7 @@ func (c *Client) getParameterHistory(key string) ([]*ssm.ParameterHistory, error
 	for {
 		resp, err := c.SSM.GetParameterHistory(input)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrap(err, "failed to get parameter history")
 		}
 		history = append(history, resp.Parameters...)
 
@@ -195,7 +195,7 @@ func (c *Client) describeParameters(filters []*ssm.ParametersFilter) ([]*ssm.Par
 	for {
 		desc, err := c.SSM.DescribeParameters(input)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrap(err, "failed to describe parameters")
 		}
 		params = append(params, desc.Parameters...)
 		if desc.NextToken == nil {

@@ -33,7 +33,7 @@ func (cmd *GetCommand) Execute(args []string) error {
 		param, err = client.GetParameterByTime(args[0], at)
 	}
 	if err != nil {
-		return errors.Wrap(err, "failed to get a parameter")
+		return err
 	}
 
 	out, err := yaml.Marshal([]*ps.Parameter{param})

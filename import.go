@@ -46,7 +46,7 @@ func (cmd *ImportCommand) Execute(args []string) error {
 	// function to update
 	actualRun := func(p *ps.Parameter) error {
 		if err := client.PutParameter(p, cmd.Overwrite); err != nil {
-			if awsErr, ok := err.(awserr.Error); ok {
+			if awsErr, ok := errors.Cause(err).(awserr.Error); ok {
 				if awsErr.Code() == ssm.ErrCodeParameterAlreadyExists && cmd.SkipExist {
 					return nil
 				}
