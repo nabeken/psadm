@@ -26,3 +26,4 @@ _testmain.go
 # local builds
 psadm
 *.yml
+!.travis.yml
