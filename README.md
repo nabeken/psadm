@@ -8,6 +8,11 @@ It provides the import and export features for [SSM Parameter Store](http://docs
 - easy to use
 - [patrickmn/go-cache](https://github.com/patrickmn/go-cache) integration with automatic refresh
 
+## Use-case
+
+- use with Lambda functions
+- use with daemon on initializaton
+
 ## Installation
 
 ```sh
