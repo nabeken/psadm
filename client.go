@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
+	"github.com/patrickmn/go-cache"
 	"github.com/pkg/errors"
 )
 
@@ -36,6 +37,13 @@ type Client struct {
 func NewClient(sess *session.Session) *Client {
 	return &Client{
 		SSM: ssm.New(sess),
+	}
+}
+
+func (c *Client) CachedClient(cache *cache.Cache) *CachedClient {
+	return &CachedClient{
+		cache:  cache,
+		client: c,
 	}
 }
 
