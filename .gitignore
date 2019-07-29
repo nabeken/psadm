@@ -27,4 +27,4 @@ _testmain.go
 psadm
 !cmd/*
 *.yml
-!.travis.yml
+!.*.yml
