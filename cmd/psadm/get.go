@@ -27,7 +27,8 @@ func (cmd *GetCommand) Execute(args []string) error {
 	if cmd.At == "" {
 		param, err = client.GetParameterWithDescription(args[0])
 	} else {
-		at, err := time.Parse(time.RFC3339, cmd.At)
+		var at time.Time
+		at, err = time.Parse(time.RFC3339, cmd.At)
 		if err != nil {
 			return errors.Wrap(err, "failed to parse `at'.")
 		}
