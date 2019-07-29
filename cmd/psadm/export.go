@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/nabeken/psadm/ps"
+	"github.com/nabeken/psadm"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 )
@@ -14,9 +14,9 @@ type ExportCommand struct {
 }
 
 func (cmd *ExportCommand) Execute(args []string) error {
-	client := ps.NewClient(session.Must(session.NewSession()))
+	client := psadm.NewClient(session.Must(session.NewSession()))
 
-	params, err := client.GetAllParameters(cmd.KeyPrefix)
+	params, err := client.GetParametersByPath(cmd.KeyPrefix)
 	if err != nil {
 		return err
 	}

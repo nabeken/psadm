@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
-	"github.com/nabeken/psadm/ps"
+	"github.com/nabeken/psadm"
 	"github.com/pkg/errors"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -36,15 +36,15 @@ func (cmd *ImportCommand) Execute(args []string) error {
 		return errors.Wrapf(err, "failed to read data from %s", args[0])
 	}
 
-	var params []*ps.Parameter
+	var params []*psadm.Parameter
 	if err := yaml.Unmarshal(data, &params); err != nil {
 		return errors.Wrap(err, "failed to unmarshal from YAML")
 	}
 
-	client := ps.NewClient(session.Must(session.NewSession()))
+	client := psadm.NewClient(session.Must(session.NewSession()))
 
 	// function to update
-	actualRun := func(p *ps.Parameter) error {
+	actualRun := func(p *psadm.Parameter) error {
 		if err := client.PutParameter(p, cmd.Overwrite); err != nil {
 			if awsErr, ok := errors.Cause(err).(awserr.Error); ok {
 				if awsErr.Code() == ssm.ErrCodeParameterAlreadyExists && cmd.SkipExist {
@@ -55,7 +55,7 @@ func (cmd *ImportCommand) Execute(args []string) error {
 		}
 		return nil
 	}
-	dryRun := func(p *ps.Parameter) error {
+	dryRun := func(p *psadm.Parameter) error {
 		fmt.Printf("dryrun: '%s' will be updated\n", p.Name)
 		return nil
 	}

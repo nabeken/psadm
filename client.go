@@ -1,20 +1,31 @@
-package ps
+package psadm
 
 import (
-	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
+	"github.com/patrickmn/go-cache"
 	"github.com/pkg/errors"
 )
 
+// ssmClient allows us to inject a fake API client for testing.
 type ssmClient interface {
 	DescribeParameters(*ssm.DescribeParametersInput) (*ssm.DescribeParametersOutput, error)
-	GetParameters(*ssm.GetParametersInput) (*ssm.GetParametersOutput, error)
+	GetParameter(*ssm.GetParameterInput) (*ssm.GetParameterOutput, error)
 	GetParameterHistory(*ssm.GetParameterHistoryInput) (*ssm.GetParameterHistoryOutput, error)
 	PutParameter(*ssm.PutParameterInput) (*ssm.PutParameterOutput, error)
+}
+
+// Parameter is the parameter exported by psadm.
+// This should be sufficient for import and export.
+type Parameter struct {
+	Description string `yaml:"description"`
+	KMSKeyID    string `yaml:"kmskeyid"`
+	Name        string `yaml:"name"`
+	Type        string `yaml:"type"`
+	Value       string `yaml:"value"`
 }
 
 // Client wraps SSM client for psadm.
@@ -29,11 +40,18 @@ func NewClient(sess *session.Session) *Client {
 	}
 }
 
-// GetParameter returns the latest parameter.
-func (c *Client) GetParameter(key string) (*Parameter, error) {
-	desc, err := c.describeParameters([]*ssm.ParametersFilter{
+func (c *Client) CachedClient(cache *cache.Cache) *CachedClient {
+	return &CachedClient{
+		cache:  cache,
+		client: c,
+	}
+}
+
+func (c *Client) GetParameterWithDescription(key string) (*Parameter, error) {
+	desc, err := c.describeParameters([]*ssm.ParameterStringFilter{
 		{
 			Key:    aws.String(ssm.ParametersFilterKeyName),
+			Option: aws.String("Equals"),
 			Values: []*string{aws.String(key)},
 		},
 	})
@@ -44,12 +62,9 @@ func (c *Client) GetParameter(key string) (*Parameter, error) {
 		return nil, errors.Errorf("'%s' is not found.", key)
 	}
 
-	val, err := c.SSM.GetParameters(&ssm.GetParametersInput{
-		Names:          []*string{aws.String(key)},
-		WithDecryption: aws.Bool(true),
-	})
+	val, err := c.getParameter(key)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to get parameters")
+		return nil, errors.Wrapf(err, "failed to get parameter '%s'", key)
 	}
 
 	p := desc[0]
@@ -58,15 +73,25 @@ func (c *Client) GetParameter(key string) (*Parameter, error) {
 		KMSKeyID:    aws.StringValue(p.KeyId),
 		Name:        aws.StringValue(p.Name),
 		Type:        aws.StringValue(p.Type),
-		Value:       aws.StringValue(val.Parameters[0].Value),
+		Value:       aws.StringValue(val.Parameter.Value),
 	}, nil
+}
+
+// GetParameter returns the decrypted parameter.
+func (c *Client) GetParameter(key string) (string, error) {
+	resp, err := c.getParameter(key)
+	if err != nil {
+		return "", errors.Wrapf(err, "failed to get parameter '%s'", key)
+	}
+	return aws.StringValue(resp.Parameter.Value), nil
 }
 
 // GetParameterByTime returns the latest parameter.
 func (c *Client) GetParameterByTime(key string, at time.Time) (*Parameter, error) {
-	desc, err := c.describeParameters([]*ssm.ParametersFilter{
+	desc, err := c.describeParameters([]*ssm.ParameterStringFilter{
 		{
 			Key:    aws.String(ssm.ParametersFilterKeyName),
+			Option: aws.String("Equals"),
 			Values: []*string{aws.String(key)},
 		},
 	})
@@ -80,7 +105,7 @@ func (c *Client) GetParameterByTime(key string, at time.Time) (*Parameter, error
 	latest := aws.TimeValue(desc[0].LastModifiedDate)
 
 	if latest.Before(at) {
-		return c.GetParameter(key)
+		return c.GetParameterWithDescription(key)
 	}
 
 	// dig into history
@@ -132,32 +157,46 @@ func (c *Client) PutParameter(param *Parameter, overwrite bool) error {
 	return errors.Wrap(err, "failed to put parameters")
 }
 
-// GetAllParameters gets all parameters having prefix.
-func (c *Client) GetAllParameters(prefix string) ([]*Parameter, error) {
-	desc, err := c.describeParameters(nil)
+func (c *Client) getParameter(key string) (*ssm.GetParameterOutput, error) {
+	return c.SSM.GetParameter(&ssm.GetParameterInput{
+		Name:           aws.String(key),
+		WithDecryption: aws.Bool(true),
+	})
+}
+
+// GetParametersByPath gets all parameters having given path prefix.
+func (c *Client) GetParametersByPath(pathPrefix string) ([]*Parameter, error) {
+	var filters []*ssm.ParameterStringFilter
+
+	if pathPrefix != "" {
+		filters = []*ssm.ParameterStringFilter{
+			{
+				Key:    aws.String(ssm.ParametersFilterKeyName),
+				Option: aws.String("BeginsWith"),
+				Values: []*string{aws.String(pathPrefix)},
+			},
+		}
+	}
+
+	desc, err := c.describeParameters(filters)
 	if err != nil {
 		return nil, err
 	}
 
 	var params []*Parameter
 	for _, p := range desc {
-		if prefix == "" || strings.HasPrefix(aws.StringValue(p.Name), prefix) {
-			val, err := c.SSM.GetParameters(&ssm.GetParametersInput{
-				Names:          []*string{p.Name},
-				WithDecryption: aws.Bool(true),
-			})
-			if err != nil {
-				return nil, errors.Wrap(err, "failed to get parameters")
-			}
-
-			params = append(params, &Parameter{
-				Description: aws.StringValue(p.Description),
-				KMSKeyID:    aws.StringValue(p.KeyId),
-				Name:        aws.StringValue(p.Name),
-				Type:        aws.StringValue(p.Type),
-				Value:       aws.StringValue(val.Parameters[0].Value),
-			})
+		val, err := c.getParameter(*p.Name)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to get parameters")
 		}
+
+		params = append(params, &Parameter{
+			Description: aws.StringValue(p.Description),
+			KMSKeyID:    aws.StringValue(p.KeyId),
+			Name:        aws.StringValue(p.Name),
+			Type:        aws.StringValue(p.Type),
+			Value:       aws.StringValue(val.Parameter.Value),
+		})
 	}
 
 	return params, nil
@@ -186,9 +225,9 @@ func (c *Client) getParameterHistory(key string) ([]*ssm.ParameterHistory, error
 	return history, nil
 }
 
-func (c *Client) describeParameters(filters []*ssm.ParametersFilter) ([]*ssm.ParameterMetadata, error) {
+func (c *Client) describeParameters(filters []*ssm.ParameterStringFilter) ([]*ssm.ParameterMetadata, error) {
 	input := &ssm.DescribeParametersInput{
-		Filters: filters,
+		ParameterFilters: filters,
 	}
 
 	var params []*ssm.ParameterMetadata

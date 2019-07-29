@@ -1,11 +1,22 @@
-# psadm - A tool for EC2 System Manager Parameter Store
+# psadm - A library and command-line tool for AWS Systems Manager Parameter Store
 
-It provides the import and export features for [SSM Parameter Store](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/systems-manager-paramstore.html).
+It provides the import and export features for [SSM Parameter Store](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/systems-manager-paramstore.html) via the library.
+
+## Features
+
+`psadm` provides the API client with the following additional feature to aws-sdk-go's one:
+- easy to use
+- [patrickmn/go-cache](https://github.com/patrickmn/go-cache) integration with automatic refresh
+
+## Use-case
+
+- use with Lambda functions
+- use with daemon on initializaton
 
 ## Installation
 
 ```sh
-go get -u github.com/nabeken/psadm
+go get -u github.com/nabeken/psadm/cmd/psadm
 ```
 
 ## Usage
