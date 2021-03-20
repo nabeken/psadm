@@ -38,18 +38,19 @@ type client interface {
 	GetParametersByPath(string) ([]*Parameter, error)
 }
 
-// Client wraps SSM client for psadm.
+// Client wraps the SSM client for psadm.
 type Client struct {
 	SSM ssmClient
 }
 
-// NewClient returns an AWS wrapper client fr psadm.
+// NewClient returns a psadm client.
 func NewClient(sess *session.Session) *Client {
 	return &Client{
 		SSM: ssm.New(sess),
 	}
 }
 
+// CachedClient returns a client with caching.
 func (c *Client) CachedClient(cache *cache.Cache) *CachedClient {
 	return &CachedClient{
 		cache:  cache,
