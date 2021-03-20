@@ -24,7 +24,5 @@ _testmain.go
 *.prof
 
 # local builds
-psadm
-!cmd/*
-*.yml
-!.*.yml
+/psadm
+/*.yml
