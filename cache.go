@@ -12,6 +12,8 @@ type CachedClient struct {
 	client *Client
 }
 
+var _ client = &CachedClient{}
+
 func (c *CachedClient) GetParameterWithDescription(key string) (*Parameter, error) {
 	ck := buildCacheKey("GetParameterWithDescription", key)
 
@@ -74,6 +76,10 @@ func (c *CachedClient) GetParametersByPath(pathPrefix string) ([]*Parameter, err
 
 	c.cache.Set(ck, params, cache.DefaultExpiration)
 	return params, nil
+}
+
+func (c *CachedClient) PutParameter(p *Parameter, overrite bool) error {
+	return c.client.PutParameter(p, overrite)
 }
 
 func buildCacheKey(prefix, key string) string {

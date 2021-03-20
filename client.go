@@ -1,3 +1,4 @@
+//go:generate mockgen -source=client.go -package psadm -destination mock_client.go
 package psadm
 
 import (
@@ -26,6 +27,15 @@ type Parameter struct {
 	Name        string `yaml:"name"`
 	Type        string `yaml:"type"`
 	Value       string `yaml:"value"`
+}
+
+// client is an internal interface that can be chained with the standard client.
+type client interface {
+	GetParameterWithDescription(string) (*Parameter, error)
+	GetParameter(string) (string, error)
+	GetParameterByTime(string, time.Time) (*Parameter, error)
+	PutParameter(*Parameter, bool) error
+	GetParametersByPath(string) ([]*Parameter, error)
 }
 
 // Client wraps SSM client for psadm.
