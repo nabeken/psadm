@@ -50,6 +50,13 @@ func NewClient(sess *session.Session) *Client {
 	}
 }
 
+// SingleflightClient returns a client with single flight caching.
+func (c *Client) SingleflightClientWithCache(cache *cache.Cache) *SingleflightClient {
+	return &SingleflightClient{
+		client: c.CachedClient(cache),
+	}
+}
+
 // CachedClient returns a client with caching.
 func (c *Client) CachedClient(cache *cache.Cache) *CachedClient {
 	return &CachedClient{

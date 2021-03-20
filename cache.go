@@ -7,9 +7,10 @@ import (
 	"github.com/patrickmn/go-cache"
 )
 
+// CachedClient is a cache-aware psadmin client.
 type CachedClient struct {
 	cache  *cache.Cache
-	client *Client
+	client client
 }
 
 var _ client = &CachedClient{}
@@ -78,6 +79,7 @@ func (c *CachedClient) GetParametersByPath(pathPrefix string) ([]*Parameter, err
 	return params, nil
 }
 
+// PutParameter forwards a call to the underlying client. It doesn't do any caching.
 func (c *CachedClient) PutParameter(p *Parameter, overrite bool) error {
 	return c.client.PutParameter(p, overrite)
 }
