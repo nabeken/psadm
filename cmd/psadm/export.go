@@ -1,9 +1,10 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/nabeken/psadm"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
@@ -14,9 +15,15 @@ type ExportCommand struct {
 }
 
 func (cmd *ExportCommand) Execute(args []string) error {
-	client := psadm.NewClient(session.Must(session.NewSession()))
+	ctx := context.Background()
+	cfg, err := config.LoadDefaultConfig(ctx)
+	if err != nil {
+		return err
+	}
 
-	params, err := client.GetParametersByPath(cmd.KeyPrefix)
+	client := psadm.NewClient(cfg)
+
+	params, err := client.GetParametersByPath(ctx, cmd.KeyPrefix)
 	if err != nil {
 		return err
 	}

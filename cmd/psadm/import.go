@@ -1,12 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 
+	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
 	"github.com/nabeken/psadm"
 	"github.com/pkg/errors"
@@ -31,7 +32,7 @@ func (cmd *ImportCommand) Execute(args []string) error {
 	}
 	defer f.Close()
 
-	data, err := ioutil.ReadAll(f)
+	data, err := io.ReadAll(f)
 	if err != nil {
 		return errors.Wrapf(err, "failed to read data from %s", args[0])
 	}
@@ -41,11 +42,17 @@ func (cmd *ImportCommand) Execute(args []string) error {
 		return errors.Wrap(err, "failed to unmarshal from YAML")
 	}
 
-	client := psadm.NewClient(session.Must(session.NewSession()))
+	ctx := context.Background()
+	cfg, err := config.LoadDefaultConfig(ctx)
+	if err != nil {
+		return err
+	}
+
+	client := psadm.NewClient(cfg)
 
 	// function to update
 	actualRun := func(p *psadm.Parameter) error {
-		if err := client.PutParameter(p, cmd.Overwrite); err != nil {
+		if err := client.PutParameter(ctx, p, cmd.Overwrite); err != nil {
 			if awsErr, ok := errors.Cause(err).(awserr.Error); ok {
 				if awsErr.Code() == ssm.ErrCodeParameterAlreadyExists && cmd.SkipExist {
 					return nil
