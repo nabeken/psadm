@@ -17,13 +17,27 @@ The command-line application provides the import and export features for [SSM Pa
 - use with Lambda functions
 - use with daemon on initializaton
 
-## Installation
+## Library
+
+`v2` version supports aws-sdk-go-v2.
 
 ```sh
-go get -u github.com/nabeken/psadm/cmd/psadm
+go get github.com/nabeken/psadm/v2
 ```
 
-## Usage
+If you want to use the library with `aws-sdk-go`, please use v0 version.
+
+```sh
+go get github.com/nabeken/psadm
+```
+
+## Command-line installation
+
+```sh
+go get -u github.com/nabeken/psadm/v2/cmd/psadm
+```
+
+### Usage
 
 To export parameters in YAML to STDOUT:
 
@@ -43,7 +57,3 @@ To get a parameter at give time in YAML:
 ```
 psadm get [--at=TIME] KEY
 ```
-
-## Tutorial
-
-TBD
