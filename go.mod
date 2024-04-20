@@ -3,7 +3,6 @@ module github.com/nabeken/psadm
 go 1.21
 
 require (
-	github.com/aws/aws-sdk-go v1.51.25
 	github.com/goccy/go-yaml v1.11.3
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
