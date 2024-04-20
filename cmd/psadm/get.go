@@ -1,13 +1,14 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/goccy/go-yaml"
-	"github.com/nabeken/psadm"
-	"github.com/pkg/errors"
+	"github.com/nabeken/psadm/v2"
 )
 
 type GetCommand struct {
@@ -16,23 +17,30 @@ type GetCommand struct {
 }
 
 func (cmd *GetCommand) Execute(args []string) error {
+	var err error
+
 	if len(args) == 0 {
-		return errors.New("You must specify a KEY to get.")
+		return errors.New("You must specify a KEY to get")
 	}
 
-	client := psadm.NewClient(session.Must(session.NewSession()))
+	ctx := context.Background()
+	cfg, err := config.LoadDefaultConfig(ctx)
+	if err != nil {
+		return err
+	}
+
+	client := psadm.NewClient(cfg)
 
 	var param *psadm.Parameter
-	var err error
 	if cmd.At == "" {
-		param, err = client.GetParameterWithDescription(args[0])
+		param, err = client.GetParameterWithDescription(ctx, args[0])
 	} else {
 		var at time.Time
 		at, err = time.Parse(time.RFC3339, cmd.At)
 		if err != nil {
-			return errors.Wrap(err, "failed to parse `at'.")
+			return fmt.Errorf("parsing 'at': %w", err)
 		}
-		param, err = client.GetParameterByTime(args[0], at)
+		param, err = client.GetParameterByTime(ctx, args[0], at)
 	}
 	if err != nil {
 		return err
@@ -43,7 +51,7 @@ func (cmd *GetCommand) Execute(args []string) error {
 	} else {
 		out, err := yaml.Marshal([]*psadm.Parameter{param})
 		if err != nil {
-			return errors.Wrap(err, "failed to marshal into YAML")
+			return fmt.Errorf("marshaling into YAML: %w", err)
 		}
 
 		fmt.Print(string(out))

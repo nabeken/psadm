@@ -1,12 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/goccy/go-yaml"
-	"github.com/nabeken/psadm"
-	"github.com/pkg/errors"
+	"github.com/nabeken/psadm/v2"
 )
 
 type ExportCommand struct {
@@ -14,16 +14,22 @@ type ExportCommand struct {
 }
 
 func (cmd *ExportCommand) Execute(args []string) error {
-	client := psadm.NewClient(session.Must(session.NewSession()))
+	ctx := context.Background()
+	cfg, err := config.LoadDefaultConfig(ctx)
+	if err != nil {
+		return err
+	}
 
-	params, err := client.GetParametersByPath(cmd.KeyPrefix)
+	client := psadm.NewClient(cfg)
+
+	params, err := client.GetParametersByPath(ctx, cmd.KeyPrefix)
 	if err != nil {
 		return err
 	}
 
 	out, err := yaml.Marshal(params)
 	if err != nil {
-		return errors.Wrap(err, "failed to marshal into YAML")
+		return fmt.Errorf("marshaling into YAML: %w", err)
 	}
 
 	fmt.Print(string(out))
