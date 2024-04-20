@@ -1,13 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"os"
 
-	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/ssm"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	"github.com/goccy/go-yaml"
 	"github.com/nabeken/psadm"
 	"github.com/pkg/errors"
@@ -41,16 +41,23 @@ func (cmd *ImportCommand) Execute(args []string) error {
 		return errors.Wrap(err, "failed to unmarshal from YAML")
 	}
 
-	client := psadm.NewClient(session.Must(session.NewSession()))
+	ctx := context.Background()
+	cfg, err := config.LoadDefaultConfig(ctx)
+	if err != nil {
+		return err
+	}
+
+	client := psadm.NewClient(cfg)
 
 	// function to update
 	actualRun := func(p *psadm.Parameter) error {
-		if err := client.PutParameter(p, cmd.Overwrite); err != nil {
-			if awsErr, ok := errors.Cause(err).(awserr.Error); ok {
-				if awsErr.Code() == ssm.ErrCodeParameterAlreadyExists && cmd.SkipExist {
-					return nil
-				}
+		if err := client.PutParameter(ctx, p, cmd.Overwrite); err != nil {
+			var ae *types.ParameterAlreadyExists
+
+			if errors.As(err, &ae) && cmd.SkipExist {
+				return nil
 			}
+
 			return err
 		}
 		return nil
@@ -66,7 +73,7 @@ func (cmd *ImportCommand) Execute(args []string) error {
 	}
 
 	for _, p := range params {
-		if p.Type == ssm.ParameterTypeSecureString && p.KMSKeyID == "" {
+		if p.Type == string(types.ParameterTypeSecureString) && p.KMSKeyID == "" {
 			p.KMSKeyID = cmd.DefaultKMSKeyID
 		}
 		if err := runF(p); err != nil {
