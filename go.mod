@@ -44,4 +44,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.23.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.28.6 // indirect
 	github.com/aws/smithy-go v1.20.2 // indirect
+	golang.org/x/mod v0.11.0 // indirect
+	golang.org/x/tools v0.2.0 // indirect
 )

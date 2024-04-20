@@ -1,4 +1,4 @@
-//go:generate mockgen -source=client.go -package psadm -destination mock_client.go
+//go:generate go run go.uber.org/mock/mockgen -source=client.go -package psadm -destination mock_client.go
 package psadm
 
 import (
