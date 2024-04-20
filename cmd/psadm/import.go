@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -10,7 +11,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	"github.com/goccy/go-yaml"
 	"github.com/nabeken/psadm"
-	"github.com/pkg/errors"
 )
 
 type ImportCommand struct {
@@ -22,23 +22,23 @@ type ImportCommand struct {
 
 func (cmd *ImportCommand) Execute(args []string) error {
 	if len(args) == 0 {
-		return errors.New("You must specify a YAML file to be imported.")
+		return errors.New("You must specify a YAML file to be imported")
 	}
 
 	f, err := os.Open(args[0])
 	if err != nil {
-		return errors.Wrapf(err, "failed to open %s", args[0])
+		return fmt.Errorf("opening %s: %w", args[0], err)
 	}
 	defer f.Close()
 
 	data, err := io.ReadAll(f)
 	if err != nil {
-		return errors.Wrapf(err, "failed to read data from %s", args[0])
+		return fmt.Errorf("reading from %s: %w", args[0], err)
 	}
 
 	var params []*psadm.Parameter
 	if err := yaml.Unmarshal(data, &params); err != nil {
-		return errors.Wrap(err, "failed to unmarshal from YAML")
+		return fmt.Errorf("marshaling into YAML: %w", err)
 	}
 
 	ctx := context.Background()
@@ -77,7 +77,7 @@ func (cmd *ImportCommand) Execute(args []string) error {
 			p.KMSKeyID = cmd.DefaultKMSKeyID
 		}
 		if err := runF(p); err != nil {
-			return errors.Wrapf(err, "failed to update '%s'", p.Name)
+			return fmt.Errorf("updating '%s': %w", p.Name, err)
 		}
 	}
 

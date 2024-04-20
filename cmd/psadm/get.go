@@ -2,13 +2,13 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/goccy/go-yaml"
 	"github.com/nabeken/psadm"
-	"github.com/pkg/errors"
 )
 
 type GetCommand struct {
@@ -20,7 +20,7 @@ func (cmd *GetCommand) Execute(args []string) error {
 	var err error
 
 	if len(args) == 0 {
-		return errors.New("You must specify a KEY to get.")
+		return errors.New("You must specify a KEY to get")
 	}
 
 	ctx := context.Background()
@@ -38,7 +38,7 @@ func (cmd *GetCommand) Execute(args []string) error {
 		var at time.Time
 		at, err = time.Parse(time.RFC3339, cmd.At)
 		if err != nil {
-			return errors.Wrap(err, "failed to parse `at'.")
+			return fmt.Errorf("parsing 'at': %w", err)
 		}
 		param, err = client.GetParameterByTime(ctx, args[0], at)
 	}
@@ -51,7 +51,7 @@ func (cmd *GetCommand) Execute(args []string) error {
 	} else {
 		out, err := yaml.Marshal([]*psadm.Parameter{param})
 		if err != nil {
-			return errors.Wrap(err, "failed to marshal into YAML")
+			return fmt.Errorf("marshaling into YAML: %w", err)
 		}
 
 		fmt.Print(string(out))

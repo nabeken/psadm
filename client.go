@@ -3,13 +3,13 @@ package psadm
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
 	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	"github.com/patrickmn/go-cache"
-	"github.com/pkg/errors"
 )
 
 // ssmClient allows us to inject a fake API client for testing.
@@ -79,12 +79,12 @@ func (c *Client) GetParameterWithDescription(ctx context.Context, key string) (*
 		return nil, err
 	}
 	if len(desc) == 0 {
-		return nil, errors.Errorf("'%s' is not found.", key)
+		return nil, fmt.Errorf("psadm: key '%s' is not found", key)
 	}
 
 	val, err := c.getParameter(ctx, key)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to get parameter '%s'", key)
+		return nil, fmt.Errorf("psadm: getting the parameter '%s': %w", key, err)
 	}
 
 	p := desc[0]
@@ -101,7 +101,7 @@ func (c *Client) GetParameterWithDescription(ctx context.Context, key string) (*
 func (c *Client) GetParameter(ctx context.Context, key string) (string, error) {
 	resp, err := c.getParameter(ctx, key)
 	if err != nil {
-		return "", errors.Wrapf(err, "failed to get parameter '%s'", key)
+		return "", fmt.Errorf("psadm: getting the parameter '%s': %w", key, err)
 	}
 	return aws.ToString(resp.Parameter.Value), nil
 }
@@ -120,7 +120,7 @@ func (c *Client) GetParameterByTime(ctx context.Context, key string, at time.Tim
 		return nil, err
 	}
 	if len(desc) == 0 {
-		return nil, errors.Errorf("'%s' is not found.", key)
+		return nil, fmt.Errorf("psadm: key '%s' is not found", key)
 	}
 
 	latest := aws.ToTime(desc[0].LastModifiedDate)
@@ -135,7 +135,7 @@ func (c *Client) GetParameterByTime(ctx context.Context, key string, at time.Tim
 		return nil, err
 	}
 	if len(history) == 0 {
-		return nil, errors.Errorf("'%s' is not found.", key)
+		return nil, fmt.Errorf("psadm: key '%s' is not found", key)
 	}
 
 	// history is sorted by LastModifiedDate in ascending order
@@ -164,14 +164,20 @@ func (c *Client) PutParameter(ctx context.Context, param *Parameter, overwrite b
 		Value:     aws.String(param.Value),
 		Overwrite: aws.Bool(overwrite),
 	}
+
 	if param.Description != "" {
 		input.Description = aws.String(param.Description)
 	}
+
 	if param.KMSKeyID != "" {
 		input.KeyId = aws.String(param.KMSKeyID)
 	}
-	_, err := c.SSM.PutParameter(ctx, input)
-	return errors.Wrap(err, "failed to put parameters")
+
+	if _, err := c.SSM.PutParameter(ctx, input); err != nil {
+		return fmt.Errorf("psadm: putting the parameter: %w", err)
+	}
+
+	return nil
 }
 
 func (c *Client) getParameter(ctx context.Context, key string) (*ssm.GetParameterOutput, error) {
@@ -206,7 +212,7 @@ func (c *Client) GetParametersByPath(ctx context.Context, pathPrefix string) ([]
 	for _, p := range desc {
 		val, err := c.getParameter(ctx, *p.Name)
 		if err != nil {
-			return nil, errors.Wrap(err, "failed to get parameters")
+			return nil, fmt.Errorf("psadm: getting the parameter '%s': %w", *p.Name, err)
 		}
 
 		params = append(params, &Parameter{
@@ -231,7 +237,7 @@ func (c *Client) getParameterHistory(ctx context.Context, key string) ([]types.P
 	for {
 		resp, err := c.SSM.GetParameterHistory(ctx, input)
 		if err != nil {
-			return nil, errors.Wrap(err, "failed to get parameter history")
+			return nil, fmt.Errorf("psadm: getting the parameter history '%s': %w", key, err)
 		}
 		history = append(history, resp.Parameters...)
 
@@ -253,7 +259,7 @@ func (c *Client) describeParameters(ctx context.Context, filters []types.Paramet
 	for {
 		desc, err := c.SSM.DescribeParameters(ctx, input)
 		if err != nil {
-			return nil, errors.Wrap(err, "failed to describe parameters")
+			return nil, fmt.Errorf("psadm: describing the parameters: %w", err)
 		}
 		params = append(params, desc.Parameters...)
 		if desc.NextToken == nil {

@@ -7,7 +7,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/goccy/go-yaml"
 	"github.com/nabeken/psadm"
-	"github.com/pkg/errors"
 )
 
 type ExportCommand struct {
@@ -30,7 +29,7 @@ func (cmd *ExportCommand) Execute(args []string) error {
 
 	out, err := yaml.Marshal(params)
 	if err != nil {
-		return errors.Wrap(err, "failed to marshal into YAML")
+		return fmt.Errorf("marshaling into YAML: %w", err)
 	}
 
 	fmt.Print(string(out))
