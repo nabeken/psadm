@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws/awserr"
@@ -31,7 +31,7 @@ func (cmd *ImportCommand) Execute(args []string) error {
 	}
 	defer f.Close()
 
-	data, err := ioutil.ReadAll(f)
+	data, err := io.ReadAll(f)
 	if err != nil {
 		return errors.Wrapf(err, "failed to read data from %s", args[0])
 	}
