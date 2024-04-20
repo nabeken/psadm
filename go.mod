@@ -1,4 +1,4 @@
-module github.com/nabeken/psadm
+module github.com/nabeken/psadm/v2
 
 go 1.21
 

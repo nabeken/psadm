@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	"github.com/goccy/go-yaml"
-	"github.com/nabeken/psadm"
+	"github.com/nabeken/psadm/v2"
 )
 
 type ImportCommand struct {
