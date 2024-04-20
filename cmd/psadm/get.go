@@ -5,9 +5,9 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/goccy/go-yaml"
 	"github.com/nabeken/psadm"
 	"github.com/pkg/errors"
-	yaml "gopkg.in/yaml.v2"
 )
 
 type GetCommand struct {
