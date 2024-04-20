@@ -1,5 +1,32 @@
 # Changelog
 
+## [2.0.0](https://github.com/nabeken/psadm/compare/v0.4.0...v2.0.0) (2024-04-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* v2 ([#23](https://github.com/nabeken/psadm/issues/23))
+* add aws-sdk-go-v2 support ([#22](https://github.com/nabeken/psadm/issues/22))
+
+### Features
+
+* add aws-sdk-go-v2 support ([#22](https://github.com/nabeken/psadm/issues/22)) ([483cf34](https://github.com/nabeken/psadm/commit/483cf34276bfae7d2b67caa6193c62d7f6dbe6c7))
+* removing pkg/errors ([84cea41](https://github.com/nabeken/psadm/commit/84cea4110094ad67c26621ef0e80ac335a3eff4f))
+* use v2 import path ([e881e93](https://github.com/nabeken/psadm/commit/e881e932c3bf0c61eccc8654b936b4fb0c0934aa))
+* use v2 import path ([#24](https://github.com/nabeken/psadm/issues/24)) ([5525823](https://github.com/nabeken/psadm/commit/5525823866552c530622a02790be7a4bc7add43d))
+* v2 ([#23](https://github.com/nabeken/psadm/issues/23)) ([99f60ec](https://github.com/nabeken/psadm/commit/99f60ec24efdd9bb014c06bf3c49a1dc5e5b314a))
+
+
+### Bug Fixes
+
+* use types package in aws-sdk-go-v2 ([926988c](https://github.com/nabeken/psadm/commit/926988cf7346efe1cd0ae7b8973403eaf02fe499))
+
+
+### Miscellaneous Chores
+
+* release 2.0.0 ([97ab21b](https://github.com/nabeken/psadm/commit/97ab21b10d38ba831120db2297b39699ff83a67b))
+* release 2.0.0 ([#26](https://github.com/nabeken/psadm/issues/26)) ([b303f00](https://github.com/nabeken/psadm/commit/b303f00b3241e53008162907354d0089638a9d2f))
+
 ## [0.4.0](https://github.com/nabeken/psadm/compare/v0.3.0...v0.4.0) (2024-04-20)
 
 
