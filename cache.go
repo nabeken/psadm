@@ -1,6 +1,7 @@
 package psadm
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -15,14 +16,14 @@ type CachedClient struct {
 
 var _ client = &CachedClient{}
 
-func (c *CachedClient) GetParameterWithDescription(key string) (*Parameter, error) {
+func (c *CachedClient) GetParameterWithDescription(ctx context.Context, key string) (*Parameter, error) {
 	ck := buildCacheKey("GetParameterWithDescription", key)
 
 	if v, found := c.cache.Get(ck); found {
 		return v.(*Parameter), nil
 	}
 
-	param, err := c.client.GetParameterWithDescription(key)
+	param, err := c.client.GetParameterWithDescription(ctx, key)
 	if err != nil {
 		return nil, err
 	}
@@ -31,14 +32,14 @@ func (c *CachedClient) GetParameterWithDescription(key string) (*Parameter, erro
 	return param, nil
 }
 
-func (c *CachedClient) GetParameter(key string) (string, error) {
+func (c *CachedClient) GetParameter(ctx context.Context, key string) (string, error) {
 	ck := buildCacheKey("GetParameter", key)
 
 	if v, found := c.cache.Get(ck); found {
 		return v.(string), nil
 	}
 
-	param, err := c.client.GetParameter(key)
+	param, err := c.client.GetParameter(ctx, key)
 	if err != nil {
 		return "", err
 	}
@@ -47,14 +48,14 @@ func (c *CachedClient) GetParameter(key string) (string, error) {
 	return param, nil
 }
 
-func (c *CachedClient) GetParameterByTime(key string, at time.Time) (*Parameter, error) {
+func (c *CachedClient) GetParameterByTime(ctx context.Context, key string, at time.Time) (*Parameter, error) {
 	ck := fmt.Sprintf("%s/%s/%d", "GetParameterByTime", key, at.Unix())
 
 	if v, found := c.cache.Get(ck); found {
 		return v.(*Parameter), nil
 	}
 
-	param, err := c.client.GetParameterByTime(key, at)
+	param, err := c.client.GetParameterByTime(ctx, key, at)
 	if err != nil {
 		return nil, err
 	}
@@ -63,14 +64,14 @@ func (c *CachedClient) GetParameterByTime(key string, at time.Time) (*Parameter,
 	return param, nil
 }
 
-func (c *CachedClient) GetParametersByPath(pathPrefix string) ([]*Parameter, error) {
+func (c *CachedClient) GetParametersByPath(ctx context.Context, pathPrefix string) ([]*Parameter, error) {
 	ck := buildCacheKey("GetParametersByPath", pathPrefix)
 
 	if v, found := c.cache.Get(ck); found {
 		return v.([]*Parameter), nil
 	}
 
-	params, err := c.client.GetParametersByPath(pathPrefix)
+	params, err := c.client.GetParametersByPath(ctx, pathPrefix)
 	if err != nil {
 		return nil, err
 	}
@@ -80,8 +81,8 @@ func (c *CachedClient) GetParametersByPath(pathPrefix string) ([]*Parameter, err
 }
 
 // PutParameter forwards a call to the underlying client. It doesn't do any caching.
-func (c *CachedClient) PutParameter(p *Parameter, overrite bool) error {
-	return c.client.PutParameter(p, overrite)
+func (c *CachedClient) PutParameter(ctx context.Context, p *Parameter, overwrite bool) error {
+	return c.client.PutParameter(ctx, p, overwrite)
 }
 
 func buildCacheKey(prefix, key string) string {

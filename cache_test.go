@@ -1,14 +1,16 @@
 package psadm
 
 import (
+	"context"
 	"testing"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/ssm"
-	gomock "github.com/golang/mock/gomock"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ssm"
+	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	"github.com/patrickmn/go-cache"
 	"github.com/stretchr/testify/assert"
+	gomock "go.uber.org/mock/gomock"
 )
 
 func TestCachedClient(t *testing.T) {
@@ -18,12 +20,12 @@ func TestCachedClient(t *testing.T) {
 	t.Run("GetParameter", func(t *testing.T) {
 		mockSSM := NewMockssmClient(mockctrl)
 		mockSSM.EXPECT().
-			GetParameter(&ssm.GetParameterInput{
+			GetParameter(gomock.Any(), &ssm.GetParameterInput{
 				Name:           aws.String("key/1/2/3"),
 				WithDecryption: aws.Bool(true),
 			}).
 			Return(&ssm.GetParameterOutput{
-				Parameter: &ssm.Parameter{
+				Parameter: &types.Parameter{
 					Value: aws.String("value"),
 				},
 			}, nil)
@@ -31,7 +33,7 @@ func TestCachedClient(t *testing.T) {
 		c := cache.New(time.Minute, 10*time.Minute)
 		client := (&Client{SSM: mockSSM}).CachedClient(c)
 
-		v, err := client.GetParameter("key/1/2/3")
+		v, err := client.GetParameter(context.TODO(), "key/1/2/3")
 		assert.Equal("value", v)
 		assert.NoError(err)
 

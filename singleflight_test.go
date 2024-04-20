@@ -1,16 +1,18 @@
 package psadm
 
 import (
+	"context"
 	"log"
 	"sync"
 	"testing"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/ssm"
-	gomock "github.com/golang/mock/gomock"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ssm"
+	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	"github.com/patrickmn/go-cache"
 	"github.com/stretchr/testify/assert"
+	gomock "go.uber.org/mock/gomock"
 )
 
 func TestSingleflightCient(t *testing.T) {
@@ -21,15 +23,15 @@ func TestSingleflightCient(t *testing.T) {
 	client := &Client{SSM: mockSSM}
 
 	ch := make(chan struct{})
-	mockSSM.EXPECT().GetParameter(gomock.Any()).
+	mockSSM.EXPECT().GetParameter(gomock.Any(), gomock.Any()).
 		// make sure the client only call the underlying client once
 		Times(1).
-		DoAndReturn(func(_ *ssm.GetParameterInput) (*ssm.GetParameterOutput, error) {
+		DoAndReturn(func(_ context.Context, _ *ssm.GetParameterInput, _ ...func(*ssm.Options)) (*ssm.GetParameterOutput, error) {
 			log.Print("ssm client is waiting for goroutines launched...")
 			<-ch
 			log.Print("ssm client is going to return a result")
 			return &ssm.GetParameterOutput{
-				Parameter: &ssm.Parameter{
+				Parameter: &types.Parameter{
 					Value: aws.String("value"),
 				},
 			}, nil
@@ -57,7 +59,7 @@ func TestSingleflightCient(t *testing.T) {
 			// let the main goroutine check launched again
 			cond.Signal()
 
-			actual, err := sfc.GetParameter("key")
+			actual, err := sfc.GetParameter(context.TODO(), "key")
 			assert.NoError(err)
 			assert.Equal("value", actual)
 		}()
