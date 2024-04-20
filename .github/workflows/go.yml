@@ -8,9 +8,9 @@ on:
 
 env:
   # renovate: datasource=golang-version depName=golang
-  GO_VERSION: '1.22.1'
+  GO_VERSION: '1.22.2'
   # renovate: datasource=github-releases depName=golangci/golangci-lint
-  GOLANGCI_LINT_VERSION: 'v1.56.2'
+  GOLANGCI_LINT_VERSION: 'v1.57.2'
 
 jobs:
   build:
@@ -47,6 +47,6 @@ jobs:
         id: go
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v4
+        uses: golangci/golangci-lint-action@3cfe3a4abbb849e10058ce4af15d205b6da42804 # v4
         with:
           version: ${{ env.GOLANGCI_LINT_VERSION }}
