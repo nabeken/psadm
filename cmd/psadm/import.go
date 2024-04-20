@@ -8,9 +8,9 @@ import (
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
+	"github.com/goccy/go-yaml"
 	"github.com/nabeken/psadm"
 	"github.com/pkg/errors"
-	yaml "gopkg.in/yaml.v2"
 )
 
 type ImportCommand struct {
