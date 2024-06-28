@@ -1,5 +1,52 @@
 # Changelog
 
+## [2.0.1](https://github.com/nabeken/psadm/compare/v2.0.0...v2.0.1) (2024-06-28)
+
+
+### Bug Fixes
+
+* **deps:** pin googleapis/release-please-action action to f3969c0 ([385730c](https://github.com/nabeken/psadm/commit/385730c933cfbe1480fdd3497680f4207c89af39))
+* **deps:** pin googleapis/release-please-action action to f3969c0 ([#48](https://github.com/nabeken/psadm/issues/48)) ([7b1d033](https://github.com/nabeken/psadm/commit/7b1d033b65f7876a82a946992de3566d1bc09de3))
+* **deps:** update actions/checkout digest to 0ad4b8f ([0661629](https://github.com/nabeken/psadm/commit/06616295324b7f6f0548b1a764466ba17ba15657))
+* **deps:** update actions/checkout digest to 0ad4b8f ([#29](https://github.com/nabeken/psadm/issues/29)) ([65f493a](https://github.com/nabeken/psadm/commit/65f493abeed871d38e2ec84fa9489a361c9c775a))
+* **deps:** update actions/checkout digest to 692973e ([fe2b26e](https://github.com/nabeken/psadm/commit/fe2b26eab8c4a094901711a193b89f1101110f87))
+* **deps:** update actions/checkout digest to 692973e ([#51](https://github.com/nabeken/psadm/issues/51)) ([6c5f91a](https://github.com/nabeken/psadm/commit/6c5f91ac18addd0494769b7fdc822819a9bfe1eb))
+* **deps:** update actions/checkout digest to a5ac7e5 ([38a92e6](https://github.com/nabeken/psadm/commit/38a92e6c3721e5b56a6381e859abf00b0a0fe6bf))
+* **deps:** update actions/checkout digest to a5ac7e5 ([#44](https://github.com/nabeken/psadm/issues/44)) ([990d9f5](https://github.com/nabeken/psadm/commit/990d9f55777c2226dbb63a35e44df4e1af4e57e4))
+* **deps:** update actions/setup-go digest to cdcb360 ([36f7e5d](https://github.com/nabeken/psadm/commit/36f7e5d26fdf4ace1d2904d2281e29298696606c))
+* **deps:** update actions/setup-go digest to cdcb360 ([#34](https://github.com/nabeken/psadm/issues/34)) ([a9cd530](https://github.com/nabeken/psadm/commit/a9cd530cbb9f641112cb3749a6cbbf633f41b687))
+* **deps:** update all non-major dependencies ([55cd26c](https://github.com/nabeken/psadm/commit/55cd26cf9e26b1ed6167e30250c7a31bae74680e))
+* **deps:** update all non-major dependencies ([a2666e0](https://github.com/nabeken/psadm/commit/a2666e0ebe6b0843f7bb8de93e6b34f5cacbd549))
+* **deps:** update all non-major dependencies ([440d279](https://github.com/nabeken/psadm/commit/440d27958861fc4e70097429d08451629ca87e5c))
+* **deps:** update all non-major dependencies ([03b7121](https://github.com/nabeken/psadm/commit/03b712108ef28c35e48e089eecae1cdf969fe106))
+* **deps:** update all non-major dependencies ([e108f15](https://github.com/nabeken/psadm/commit/e108f15e8c94a7b687ab1bb2cbe792b649e6f4dc))
+* **deps:** update all non-major dependencies ([6105577](https://github.com/nabeken/psadm/commit/610557721528e9de5b511dbe76923b64bee04ef5))
+* **deps:** update dependency golang to v1.22.3 ([2344b5d](https://github.com/nabeken/psadm/commit/2344b5ddd8ce01967ce1434213596dcd5c39b63f))
+* **deps:** update dependency golangci/golangci-lint to v1.58.0 ([1ed10a4](https://github.com/nabeken/psadm/commit/1ed10a42ec95cbeff8c29a8ff02b82ced164e736))
+* **deps:** update dependency golangci/golangci-lint to v1.58.0 ([#35](https://github.com/nabeken/psadm/issues/35)) ([34f671b](https://github.com/nabeken/psadm/commit/34f671be164614f1ec404998d593aacece7bd10d))
+* **deps:** update dependency golangci/golangci-lint to v1.59.1 ([af99c1e](https://github.com/nabeken/psadm/commit/af99c1e8fd37dd2657651037b2cb14b1ed034727))
+* **deps:** update dependency golangci/golangci-lint to v1.59.1 ([#49](https://github.com/nabeken/psadm/issues/49)) ([67d1ebe](https://github.com/nabeken/psadm/commit/67d1ebed77a543694e609bb2cb25ee6dbd1214da))
+* **deps:** update go ([7b30450](https://github.com/nabeken/psadm/commit/7b30450c02a4d893fc724371f8f700b37758f1b2))
+* **deps:** update go ([79a975b](https://github.com/nabeken/psadm/commit/79a975bcfce01fd4784eaa76bcbea85f3fac1284))
+* **deps:** update go ([#38](https://github.com/nabeken/psadm/issues/38)) ([e954848](https://github.com/nabeken/psadm/commit/e954848082a7bc6202595663d24b171362f51625))
+* **deps:** update go ([#43](https://github.com/nabeken/psadm/issues/43)) ([a18aa4f](https://github.com/nabeken/psadm/commit/a18aa4fcca5aeeea2f79c76fc4db35d536c069cb))
+* **deps:** update golangci/golangci-lint-action action to v5 ([cda8b7a](https://github.com/nabeken/psadm/commit/cda8b7a816f85fd927017bc0cbbbea109500c995))
+* **deps:** update golangci/golangci-lint-action action to v5 ([#31](https://github.com/nabeken/psadm/issues/31)) ([059acea](https://github.com/nabeken/psadm/commit/059acead024ce0c3e4ad55d64744ff7d1918e65b))
+* **deps:** update golangci/golangci-lint-action action to v6 ([480b154](https://github.com/nabeken/psadm/commit/480b1548694d217edf71c971fb2522d2f2308889))
+* **deps:** update golangci/golangci-lint-action action to v6 ([#37](https://github.com/nabeken/psadm/issues/37)) ([4786401](https://github.com/nabeken/psadm/commit/478640152a9fccda9acb2a7d57a55924b31e55ee))
+* **deps:** update golangci/golangci-lint-action digest to 9d1e062 ([37c206f](https://github.com/nabeken/psadm/commit/37c206f84a0116fcd256c438660a05a5d93c2a98))
+* **deps:** update golangci/golangci-lint-action digest to 9d1e062 ([#33](https://github.com/nabeken/psadm/issues/33)) ([2543aff](https://github.com/nabeken/psadm/commit/2543aff66c82bab42c64244512c33fdb08aecc7c))
+* **deps:** update golangci/golangci-lint-action digest to d6238b0 ([3374517](https://github.com/nabeken/psadm/commit/33745176bfe48badb755840ac041bdf6fc518619))
+* **deps:** update golangci/golangci-lint-action digest to d6238b0 ([#30](https://github.com/nabeken/psadm/issues/30)) ([634e501](https://github.com/nabeken/psadm/commit/634e501b881c5b734419c554fdd2f496a530d495))
+* **deps:** update googleapis/release-please-action digest to 7987652 ([33586b0](https://github.com/nabeken/psadm/commit/33586b0fb260cfe037195e701b03a1452de0354a))
+* **deps:** update googleapis/release-please-action digest to 7987652 ([#50](https://github.com/nabeken/psadm/issues/50)) ([050977a](https://github.com/nabeken/psadm/commit/050977ac4285cd975d52b5fb1ec32585bd917ce6))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/config to v1.27.11 ([1b41d0a](https://github.com/nabeken/psadm/commit/1b41d0a3fd594528cd7bb42efa07e968ccfe0cfd))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/service/ssm to v1.50.0 ([44efa97](https://github.com/nabeken/psadm/commit/44efa97f13f9a4d113343bf5ba2db44399f8be93))
+* **deps:** update module github.com/jessevdk/go-flags to v1.6.1 ([0ed5249](https://github.com/nabeken/psadm/commit/0ed524919365fc498af1bf52a88ce8d0bdfaf5ac))
+* **deps:** update module github.com/jessevdk/go-flags to v1.6.1 ([#52](https://github.com/nabeken/psadm/issues/52)) ([4d91fbd](https://github.com/nabeken/psadm/commit/4d91fbd3c678277d0740b5d59b9c7b147511874f))
+* **deps:** update nabeken/go-github-apps digest to ad9874f ([a7fadf0](https://github.com/nabeken/psadm/commit/a7fadf063a8e29f97dc6d588dbda121def0f7f52))
+* **deps:** update nabeken/go-github-apps digest to ad9874f ([#53](https://github.com/nabeken/psadm/issues/53)) ([6e68b8e](https://github.com/nabeken/psadm/commit/6e68b8eeb7c1241322c1f47ed34cb22035149d1c))
+
 ## [2.0.0](https://github.com/nabeken/psadm/compare/v0.4.0...v2.0.0) (2024-04-20)
 
 
