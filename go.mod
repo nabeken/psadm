@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.23.3
 
 require (
-	github.com/goccy/go-yaml v1.13.0
+	github.com/goccy/go-yaml v1.13.6
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/stretchr/testify v1.9.0
