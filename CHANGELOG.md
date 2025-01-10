@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/nabeken/psadm/compare/v2.0.1...v2.0.2) (2025-01-10)
+
+
+### Bug Fixes
+
+* **deps:** update aws-sdk-go-v2 monorepo ([#112](https://github.com/nabeken/psadm/issues/112)) ([93eab22](https://github.com/nabeken/psadm/commit/93eab22d7d70c9a07e3987709a765a2c29dccf6b))
+
 ## [2.0.1](https://github.com/nabeken/psadm/compare/v2.0.0...v2.0.1) (2025-01-04)
 
 
