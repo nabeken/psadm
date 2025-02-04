@@ -9,7 +9,7 @@ require (
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/sync v0.10.0
+	golang.org/x/sync v0.11.0
 )
 
 require (
