@@ -6,7 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/goccy/go-yaml"
-	"github.com/nabeken/psadm/v2"
+	"github.com/nabeken/psadm/v3"
 )
 
 type ExportCommand struct {

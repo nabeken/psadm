@@ -19,6 +19,12 @@ The command-line application provides the import and export features for [SSM Pa
 
 ## Library
 
+`v3` now requires Go 1.23.0 or higher.
+
+```sh
+go get github.com/nabeken/psadm/v3
+```
+
 `v2` version supports aws-sdk-go-v2.
 
 ```sh
