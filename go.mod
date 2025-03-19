@@ -1,4 +1,4 @@
-module github.com/nabeken/psadm/v2
+module github.com/nabeken/psadm/v3
 
 go 1.23.0
 
