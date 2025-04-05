@@ -1,5 +1,34 @@
 # Changelog
 
+## [3.0.0](https://github.com/nabeken/psadm/compare/v2.0.2...v3.0.0) (2025-04-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* bump v3 ([#155](https://github.com/nabeken/psadm/issues/155))
+
+### Features
+
+* bump v3 ([#155](https://github.com/nabeken/psadm/issues/155)) ([212d66d](https://github.com/nabeken/psadm/commit/212d66de75b0598c0baae60f6519ee78d36e038f))
+
+
+### Bug Fixes
+
+* **deps:** update actions/create-github-app-token action to v2 ([#164](https://github.com/nabeken/psadm/issues/164)) ([42ee1cd](https://github.com/nabeken/psadm/commit/42ee1cd3df9df4794bd7dd9cbb6d4513c77c1c08))
+* **deps:** update actions/create-github-app-token digest to af35eda ([#156](https://github.com/nabeken/psadm/issues/156)) ([1f048c0](https://github.com/nabeken/psadm/commit/1f048c02d41ba10c6a7984213dd56e54f2d1f754))
+* **deps:** update actions/create-github-app-token digest to d72941d ([#158](https://github.com/nabeken/psadm/issues/158)) ([adb01a7](https://github.com/nabeken/psadm/commit/adb01a7be301b9d02319233e97f497487d8d6a29))
+* **deps:** update aws-sdk-go-v2 monorepo ([#159](https://github.com/nabeken/psadm/issues/159)) ([9b2dad4](https://github.com/nabeken/psadm/commit/9b2dad44b1094aacf496419a242d8adb002363e0))
+* **deps:** update aws-sdk-go-v2 monorepo ([#165](https://github.com/nabeken/psadm/issues/165)) ([a394d03](https://github.com/nabeken/psadm/commit/a394d037e8ba6728d1b29b0024606723d9627b8d))
+* **deps:** update dependency go to v1.24.2 ([#162](https://github.com/nabeken/psadm/issues/162)) ([d1e003f](https://github.com/nabeken/psadm/commit/d1e003feef0d3fc7ac66d19bab7005c0c58a78f0))
+* **deps:** update dependency golang to v1.24.2 ([#163](https://github.com/nabeken/psadm/issues/163)) ([44f079a](https://github.com/nabeken/psadm/commit/44f079a1009eb743d98412e57908b275b9f550a2))
+* **deps:** update dependency golangci/golangci-lint to v1.64.8 ([8bef08c](https://github.com/nabeken/psadm/commit/8bef08c387f9551bafb7361f699f8b7d9b7018c8))
+* **deps:** update dependency golangci/golangci-lint to v1.64.8 ([#153](https://github.com/nabeken/psadm/issues/153)) ([1ae0533](https://github.com/nabeken/psadm/commit/1ae0533343e1c264e2dd28ca72b08cb4b115db3f))
+* **deps:** update github-actions ([389e31f](https://github.com/nabeken/psadm/commit/389e31f22c97911fb2830fe4a5b5ebc1f6676afe))
+* **deps:** update github-actions ([#152](https://github.com/nabeken/psadm/issues/152)) ([8951fa9](https://github.com/nabeken/psadm/commit/8951fa9d986c6566b7949c68f6fddea0f8044f56))
+* **deps:** update module github.com/goccy/go-yaml to v1.17.1 ([#160](https://github.com/nabeken/psadm/issues/160)) ([4e5c128](https://github.com/nabeken/psadm/commit/4e5c128e214117e44e74c701fb7f4c33665e30e0))
+* **deps:** update module golang.org/x/sync to v0.12.0 ([#145](https://github.com/nabeken/psadm/issues/145)) ([cb55384](https://github.com/nabeken/psadm/commit/cb55384307127005c86bd086374ab014a7e5d9f8))
+* migrate to golangci-lint v2 ([#166](https://github.com/nabeken/psadm/issues/166)) ([35d576e](https://github.com/nabeken/psadm/commit/35d576e2e366466374e4dd6e221f5bae151b8717))
+
 ## [2.0.2](https://github.com/nabeken/psadm/compare/v2.0.1...v2.0.2) (2025-03-17)
 
 
