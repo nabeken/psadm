@@ -20,7 +20,7 @@ func (cmd *GetCommand) Execute(args []string) error {
 	var err error
 
 	if len(args) == 0 {
-		return errors.New("You must specify a KEY to get")
+		return errors.New("You must specify a KEY to get") //nolint:staticcheck
 	}
 
 	ctx := context.Background()

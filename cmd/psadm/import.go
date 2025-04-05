@@ -22,7 +22,7 @@ type ImportCommand struct {
 
 func (cmd *ImportCommand) Execute(args []string) error {
 	if len(args) == 0 {
-		return errors.New("You must specify a YAML file to be imported")
+		return errors.New("You must specify a YAML file to be imported") //nolint:staticcheck
 	}
 
 	f, err := os.Open(args[0])
