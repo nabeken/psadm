@@ -2,7 +2,7 @@ module github.com/nabeken/psadm/v3
 
 go 1.23.0
 
-toolchain go1.24.5
+toolchain go1.24.6
 
 require (
 	github.com/goccy/go-yaml v1.18.0
