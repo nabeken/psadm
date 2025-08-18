@@ -62,8 +62,8 @@ github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORN
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
 github.com/kr/text v0.1.0 h1:45sCR5RtlFHMR4UwH9sdQ5TC8v0qDQCHnXt+kaKSTVE=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
-github.com/marwan-at-work/mod v0.8.0 h1:+30E97fVMJgAw3os2s6AH2jcQATVy10WeIaCuKzP6Ho=
-github.com/marwan-at-work/mod v0.8.0/go.mod h1:F7WGST5GWCq7qRpO4Cf4jCXZE5wNZcfeUvJyeD3wrJw=
+github.com/marwan-at-work/mod v0.9.0 h1:Oxc4phwPMhhgslC1/2qcBf3TxKsiBrV6GgbMwhQ8zPY=
+github.com/marwan-at-work/mod v0.9.0/go.mod h1:mZcJSwoGHrYgM+z0kVvvX05ydReRbNtKOEksM4np3ug=
 github.com/patrickmn/go-cache v2.1.0+incompatible h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=
 github.com/patrickmn/go-cache v2.1.0+incompatible/go.mod h1:3Qf8kWWT7OJRJbdiICTKqZju1ZixQ/KpMGzzAfe6+WQ=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
