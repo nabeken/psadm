@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.2](https://github.com/nabeken/psadm/compare/v3.0.1...v3.0.2) (2025-09-26)
+
+
+### Bug Fixes
+
+* **deps:** update actions/create-github-app-token digest to 6701853 ([#226](https://github.com/nabeken/psadm/issues/226)) ([7f02201](https://github.com/nabeken/psadm/commit/7f02201fc110bdb2b393c45a5939d7296e8faf0a))
+* **deps:** update actions/create-github-app-token digest to def152b ([#223](https://github.com/nabeken/psadm/issues/223)) ([8047974](https://github.com/nabeken/psadm/commit/8047974dc246919dddec7ed2b1b886b27c387079))
+* **deps:** update aws-sdk-go-v2 monorepo ([#224](https://github.com/nabeken/psadm/issues/224)) ([1795ed0](https://github.com/nabeken/psadm/commit/1795ed0a0e063f68c94befbf15ffb38e3f5cccbe))
+* **deps:** update aws-sdk-go-v2 monorepo ([#228](https://github.com/nabeken/psadm/issues/228)) ([5a91867](https://github.com/nabeken/psadm/commit/5a91867ea87c70be447719819fc50298b44f05de))
+* **deps:** update dependency golangci/golangci-lint to v2.5.0 ([#227](https://github.com/nabeken/psadm/issues/227)) ([c7f1e87](https://github.com/nabeken/psadm/commit/c7f1e87dfac7a4f1f1bed06c40827cc307686781))
+
 ## [3.0.1](https://github.com/nabeken/psadm/compare/v3.0.0...v3.0.1) (2025-09-05)
 
 
