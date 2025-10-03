@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.3](https://github.com/nabeken/psadm/compare/v3.0.2...v3.0.3) (2025-10-03)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/aws/aws-sdk-go-v2/config to v1.31.12 ([#229](https://github.com/nabeken/psadm/issues/229)) ([7806454](https://github.com/nabeken/psadm/commit/7806454f38f5b871074dc34f6d5a15ebee36501c))
+
 ## [3.0.2](https://github.com/nabeken/psadm/compare/v3.0.1...v3.0.2) (2025-09-26)
 
 
