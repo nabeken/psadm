@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.0.3](https://github.com/nabeken/psadm/compare/v3.0.2...v3.0.3) (2025-10-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency go to v1.25.2 ([#231](https://github.com/nabeken/psadm/issues/231)) ([7d45088](https://github.com/nabeken/psadm/commit/7d450887a9c23a648d5312dfacb55b9726cb749b))
+* **deps:** update dependency golang to v1.25.2 ([#232](https://github.com/nabeken/psadm/issues/232)) ([6edddfc](https://github.com/nabeken/psadm/commit/6edddfc42c6cd2aacd8dfc7d9b9329fcce631e3d))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/config to v1.31.12 ([#229](https://github.com/nabeken/psadm/issues/229)) ([7806454](https://github.com/nabeken/psadm/commit/7806454f38f5b871074dc34f6d5a15ebee36501c))
+
 ## [3.0.2](https://github.com/nabeken/psadm/compare/v3.0.1...v3.0.2) (2025-09-26)
 
 
