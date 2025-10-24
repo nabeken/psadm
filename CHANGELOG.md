@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.0.3](https://github.com/nabeken/psadm/compare/v3.0.2...v3.0.3) (2025-10-24)
+
+
+### Bug Fixes
+
+* **deps:** update aws-sdk-go-v2 monorepo ([#235](https://github.com/nabeken/psadm/issues/235)) ([25fa45f](https://github.com/nabeken/psadm/commit/25fa45fbbed91603b3892d6f060773ab3e210194))
+* **deps:** update aws-sdk-go-v2 monorepo ([#237](https://github.com/nabeken/psadm/issues/237)) ([0c6c83e](https://github.com/nabeken/psadm/commit/0c6c83eaa2cac59363ffa43783ce38467a4902ce))
+* **deps:** update dependency go to v1.25.2 ([#231](https://github.com/nabeken/psadm/issues/231)) ([7d45088](https://github.com/nabeken/psadm/commit/7d450887a9c23a648d5312dfacb55b9726cb749b))
+* **deps:** update dependency go to v1.25.3 ([#233](https://github.com/nabeken/psadm/issues/233)) ([d6c6826](https://github.com/nabeken/psadm/commit/d6c6826623a4e5ad96d69d6714fd43b4b53fe5ba))
+* **deps:** update dependency golang to v1.25.2 ([#232](https://github.com/nabeken/psadm/issues/232)) ([6edddfc](https://github.com/nabeken/psadm/commit/6edddfc42c6cd2aacd8dfc7d9b9329fcce631e3d))
+* **deps:** update dependency golang to v1.25.3 ([#234](https://github.com/nabeken/psadm/issues/234)) ([bd339f1](https://github.com/nabeken/psadm/commit/bd339f1c6ece81c3a943d79d45623aeaa22212d2))
+* **deps:** update googleapis/release-please-action digest to 16a9c90 ([#236](https://github.com/nabeken/psadm/issues/236)) ([f916412](https://github.com/nabeken/psadm/commit/f9164129f48324dc4ced44cb22fe7b24b1e00174))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/config to v1.31.12 ([#229](https://github.com/nabeken/psadm/issues/229)) ([7806454](https://github.com/nabeken/psadm/commit/7806454f38f5b871074dc34f6d5a15ebee36501c))
+
 ## [3.0.2](https://github.com/nabeken/psadm/compare/v3.0.1...v3.0.2) (2025-09-26)
 
 
