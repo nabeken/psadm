@@ -1,6 +1,6 @@
 module github.com/nabeken/psadm/v3
 
-go 1.23.0
+go 1.24.0
 
 toolchain go1.25.5
 
@@ -9,7 +9,7 @@ require (
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/sync v0.16.0
+	golang.org/x/sync v0.19.0
 )
 
 require (
