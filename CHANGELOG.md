@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.4](https://github.com/nabeken/psadm/compare/v3.0.3...v3.0.4) (2026-03-27)
+
+
+### Bug Fixes
+
+* **deps:** update aws-sdk-go-v2 monorepo ([#286](https://github.com/nabeken/psadm/issues/286)) ([8e018bf](https://github.com/nabeken/psadm/commit/8e018bf3643cb291079b2523c85420f2811f2bc5))
+* **deps:** update go to v1.26.1 ([#283](https://github.com/nabeken/psadm/issues/283)) ([48d5242](https://github.com/nabeken/psadm/commit/48d5242232cb5437abce17949de1600b80129b6b))
+
 ## [3.0.3](https://github.com/nabeken/psadm/compare/v3.0.2...v3.0.3) (2026-03-14)
 
 
