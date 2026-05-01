@@ -1,5 +1,23 @@
 # Changelog
 
+## [3.0.4](https://github.com/nabeken/psadm/compare/v3.0.3...v3.0.4) (2026-05-01)
+
+
+### Bug Fixes
+
+* **deps:** update actions/create-github-app-token digest to 1b10c78 ([#291](https://github.com/nabeken/psadm/issues/291)) ([354567f](https://github.com/nabeken/psadm/commit/354567f29fdb18cf7236ac9983da99f867558568))
+* **deps:** update actions/create-github-app-token digest to 7bd0371 ([#290](https://github.com/nabeken/psadm/issues/290)) ([5fb2cc3](https://github.com/nabeken/psadm/commit/5fb2cc304367a896708281de798a1f377b3e2048))
+* **deps:** update actions/setup-go digest to 4a36011 ([#287](https://github.com/nabeken/psadm/issues/287)) ([6175612](https://github.com/nabeken/psadm/commit/61756126200f3ded68a08f37e954d2d8c3314fee))
+* **deps:** update aws-sdk-go-v2 monorepo ([#286](https://github.com/nabeken/psadm/issues/286)) ([8e018bf](https://github.com/nabeken/psadm/commit/8e018bf3643cb291079b2523c85420f2811f2bc5))
+* **deps:** update aws-sdk-go-v2 monorepo ([#293](https://github.com/nabeken/psadm/issues/293)) ([ee1f6ac](https://github.com/nabeken/psadm/commit/ee1f6acd14402ba860cccd80bb9ef46faec7c649))
+* **deps:** update aws-sdk-go-v2 monorepo ([#296](https://github.com/nabeken/psadm/issues/296)) ([8a064df](https://github.com/nabeken/psadm/commit/8a064df4b32f13c6d327559f8461235fa3dbea87))
+* **deps:** update dependency golangci/golangci-lint to v2.11.4 ([#285](https://github.com/nabeken/psadm/issues/285)) ([dfa9d6f](https://github.com/nabeken/psadm/commit/dfa9d6f19055f801ce0043be85da883fe732a1d6))
+* **deps:** update go to v1.26.1 ([#283](https://github.com/nabeken/psadm/issues/283)) ([48d5242](https://github.com/nabeken/psadm/commit/48d5242232cb5437abce17949de1600b80129b6b))
+* **deps:** update go to v1.26.2 ([#289](https://github.com/nabeken/psadm/issues/289)) ([329b047](https://github.com/nabeken/psadm/commit/329b047de69a8ad8fd69ba28cf267abf08809659))
+* **deps:** update googleapis/release-please-action action to v5 ([#294](https://github.com/nabeken/psadm/issues/294)) ([37e7cd8](https://github.com/nabeken/psadm/commit/37e7cd885db601d0af98f7345c1a86adaac28016))
+* **deps:** update googleapis/release-please-action digest to 5c625bf ([#292](https://github.com/nabeken/psadm/issues/292)) ([bd3d1cd](https://github.com/nabeken/psadm/commit/bd3d1cddffc9fdd9ee496052d8c1e9fe3efe5b60))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/config to v1.32.14 ([#288](https://github.com/nabeken/psadm/issues/288)) ([92aa62e](https://github.com/nabeken/psadm/commit/92aa62e7c04219ab3559398ebddfc604af1699c3))
+
 ## [3.0.3](https://github.com/nabeken/psadm/compare/v3.0.2...v3.0.3) (2026-03-14)
 
 
