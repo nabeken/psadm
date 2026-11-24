@@ -19,7 +19,13 @@ The command-line application provides the import and export features for [SSM Pa
 
 ## Library
 
-`v3` now requires Go 1.23.0 or higher.
+`v4` now requires Go 1.26.0 or higher.
+
+```sh
+go get github.com/nabeken/psadm/v4
+```
+
+`v3` requires Go 1.23.0 or higher.
 
 ```sh
 go get github.com/nabeken/psadm/v3
@@ -40,7 +46,7 @@ go get github.com/nabeken/psadm
 ## Command-line installation
 
 ```sh
-go get -u github.com/nabeken/psadm/v2/cmd/psadm
+go install github.com/nabeken/psadm/v4/cmd/psadm@latest
 ```
 
 ### Usage
